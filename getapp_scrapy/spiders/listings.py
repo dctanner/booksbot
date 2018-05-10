@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import os
 
 class ListingsSpider(scrapy.Spider):
     name = "listings"
     allowed_domains = ["getapp.com"]
-    start_urls = [
-        'https://www.getapp.com/business-intelligence-analytics-software/data-quality/'
-    ]
+    with open(os.path.abspath('voted-5-3.txt'), 'r') as f:
+        start_urls = f.read().splitlines()
 
     def parse(self, response):
         for listing_url in response.css("a.serp-read-more ::attr(href)").extract():
