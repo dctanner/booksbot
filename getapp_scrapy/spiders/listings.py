@@ -5,7 +5,7 @@ class ListingsSpider(scrapy.Spider):
     name = "listings"
     allowed_domains = ["getapp.com"]
     start_urls = [
-        'https://www.getapp.com/business-intelligence-analytics-software/data-mining/',
+        'https://www.getapp.com/business-intelligence-analytics-software/data-quality/'
     ]
 
     def parse(self, response):
@@ -20,6 +20,7 @@ class ListingsSpider(scrapy.Spider):
         listing = response.css("div.product_main")
 
         item["name"] = response.css("h2 ::text").extract_first()
+        item["logo"] = response.css("div#apps img.img-responsive.img-fluid ::attr(data-src)").extract_first()
         item["desc"] = response.css("p.lead > span ::text").extract_first()
         item["rating"] = response.css('span[itemprop="ratingValue"] ::text').extract_first()
         item["num_reviews"] = response.css('meta[itemprop="ratingCount"] ::attr(content)').extract_first()
